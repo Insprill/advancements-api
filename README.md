@@ -11,9 +11,9 @@
 <br />
 <p style="text-align: center;">
 
-  <h3 style="text-align: center;">Advancements API</h3>
+  <h3 align="center">Advancements API</h3>
 
-  <p style="text-align: center;">
+  <p align="center">
     A Spigot library for creating custom advancements
     <br />
     <b>WARNING: This is a work-in-progress and breaking changes may occur at any time!</b>
