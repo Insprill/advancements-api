@@ -1,13 +1,13 @@
-package net.insprill.advancementapi
+package net.insprill.advancementsapi
 
 import com.google.common.base.Preconditions
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import net.insprill.advancementsapi.nms.NmsHandler
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.advancement.Advancement
 import org.bukkit.advancement.AdvancementDisplay
-import org.bukkit.craftbukkit.v1_19_R1.inventory.CraftItemStack
 
 class CustomAdvancement(
     private val key: NamespacedKey,
@@ -48,8 +48,8 @@ class CustomAdvancement(
 
         val display = JsonObject()
         val icon = JsonObject()
-        icon.addProperty("item", CraftItemStack.asNMSCopy(this.display.icon).c().toString())
-        icon.addProperty("nbt", CraftItemStack.asNMSCopy(this.display.icon).v().toString())
+        icon.addProperty("item", NmsHandler.nmsImpl.getItemKey(this.display.icon))
+        icon.addProperty("nbt", NmsHandler.nmsImpl.getItemNbt(this.display.icon))
         display.add("icon", icon)
         display.addProperty("title", this.display.title)
         display.addProperty("frame", this.display.type.name.lowercase())

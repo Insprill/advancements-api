@@ -1,4 +1,4 @@
-package net.insprill.advancementapi
+package net.insprill.advancementsapi
 
 class AdvancementReward(
     val recipes: List<String>,

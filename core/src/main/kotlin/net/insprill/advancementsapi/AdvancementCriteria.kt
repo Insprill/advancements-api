@@ -1,4 +1,4 @@
-package net.insprill.advancementapi
+package net.insprill.advancementsapi
 
 import com.google.gson.Gson
 import com.google.gson.JsonElement

@@ -46,7 +46,7 @@
 
 ## About The Project
 
-Advancement API is a project that allows custom advancements to be created and registered in code.  
+Advancements API is a project that allows custom advancements to be created and registered in code.  
 
 While it's written in Kotlin, the API has been designed to be used in Java projects with minimal overhead.
 
@@ -82,7 +82,7 @@ contributions you make are **greatly appreciated**.
 
 ## Building
 
-To compile Advancement API, you will need JDK 8 or higher and an internet connection.  
+To compile Advancements API, you will need JDK 8 or higher and an internet connection.  
 Clone this repo, then run `./gradlew build` from your terminal.  
 You can find the compiled jar in the `build/libs` directory.  
 If you'd like to publish it to your local Maven repository, you can run `./gradlew publishToMavenLocal`.

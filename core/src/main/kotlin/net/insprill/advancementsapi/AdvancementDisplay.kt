@@ -1,4 +1,4 @@
-package net.insprill.advancementapi
+package net.insprill.advancementsapi
 
 import org.bukkit.Material
 import org.bukkit.advancement.AdvancementDisplay

@@ -1,44 +1,48 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     `maven-publish`
     kotlin("jvm") version "1.7.10"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-group = "net.insprill"
-version = "0.1.0-SNAPSHOT"
+allprojects {
+    group = "net.insprill"
+    version = "0.1.0-SNAPSHOT"
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    repositories {
+        mavenCentral()
+    }
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot:1.19.2-R0.1-SNAPSHOT")
+    implementation(project(":core"))
+    implementation(project(":nms:v1_19_R1", "default"))
 }
 
 tasks {
 
-    withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+    jar {
+        enabled = false
     }
 
-    java {
-        withSourcesJar()
-        withJavadocJar()
+    shadowJar {
+        archiveClassifier.set("")
+    }
+
+    build {
+        dependsOn(shadowJar)
     }
 
 }
 
 publishing {
     publications {
-        register("maven", MavenPublication::class) {
+        create<MavenPublication>("maven") {
             from(components["java"])
+            artifact(tasks.shadowJar)
             pom {
                 name.set(project.name)
                 description.set("A Spigot library for creating custom advancements")
-                url.set("https://github.com/Insprill/advancement-api")
+                url.set("https://github.com/Insprill/advancements-api")
                 licenses {
                     license {
                         name.set("The Apache License, Version 2.0")
@@ -53,13 +57,13 @@ publishing {
                     }
                 }
                 scm {
-                    url.set("https://github.com/Insprill/advancement-api")
-                    connection.set("scm:git:git://github.com/Insprill/advancement-api.git")
-                    developerConnection.set("scm:git:git@github.com:Insprill/advancement-api.git")
+                    url.set("https://github.com/Insprill/advancements-api")
+                    connection.set("scm:git:git://github.com/Insprill/advancements-api.git")
+                    developerConnection.set("scm:git:git@github.com:Insprill/advancements-api.git")
                 }
                 issueManagement {
                     system.set("GitHub Issues")
-                    url.set("https://github.com/Insprill/advancement-api/issues")
+                    url.set("https://github.com/Insprill/advancements-api/issues")
                 }
             }
         }
