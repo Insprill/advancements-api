@@ -10,7 +10,9 @@
 <!-- PROJECT LOGO -->
 <br />
 <p style="text-align: center;">
+
   <h3 style="text-align: center;">Advancements API</h3>
+
   <p style="text-align: center;">
     A Spigot library for creating custom advancements
     <br />
