@@ -10,12 +10,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p style="text-align: center;">
-  <!-- <a href="https://github.com/Insprill/advancements-api">
-     <img src="logo.png" alt="Logo" width="500" height="500">
-  </a> -->
-
-  <h3 align="center">Advancements API</h3>
-
+  <h3 style="text-align: center;">Advancements API</h3>
   <p style="text-align: center;">
     A Spigot library for creating custom advancements
     <br />
