@@ -37,8 +37,7 @@ tasks {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            from(components["java"])
-            artifact(tasks.shadowJar)
+            project.shadow.component(this)
             pom {
                 name.set(project.name)
                 description.set("A Spigot library for creating custom advancements")
