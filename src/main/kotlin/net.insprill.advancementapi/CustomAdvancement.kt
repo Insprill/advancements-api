@@ -36,6 +36,9 @@ class CustomAdvancement(
         Bukkit.getUnsafe().removeAdvancement(key)
     }
 
+    /**
+     * [Format](https://minecraft.fandom.com/wiki/Advancement/JSON_format#File_format)
+     */
     private fun toJson(): String {
         val json = JsonObject()
 
