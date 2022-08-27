@@ -71,11 +71,11 @@ While it's written in Kotlin, the API has been designed to be used in Java proje
 </dependency>
 ```
 
-#### Gradle
+#### Gradle (Groovy or Kotlin)
 
 ```groovy
 dependencies {
-    implementation("net.insprill:fetch4j:version")
+    implementation("net.insprill:advancements-api:version")
 }
 ```
 
