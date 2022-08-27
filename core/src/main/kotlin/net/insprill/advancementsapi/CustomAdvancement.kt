@@ -88,8 +88,6 @@ class CustomAdvancement(
         rewards.addProperty("function", reward.function)
         json.add("rewards", rewards)
 
-        println(json.toString())
-
         return json.toString()
     }
 
