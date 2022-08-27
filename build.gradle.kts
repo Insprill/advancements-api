@@ -19,7 +19,6 @@ dependencies {
 }
 
 tasks {
-
     jar {
         enabled = false
     }
@@ -31,7 +30,6 @@ tasks {
     build {
         dependsOn(shadowJar)
     }
-
 }
 
 publishing {
