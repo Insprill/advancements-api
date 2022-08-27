@@ -8,7 +8,7 @@ object NmsHandler {
     val nmsImpl = findImpl()
 
     private fun findImpl(): NmsImpl {
-        val pckg: List<String> = Bukkit.getServer().javaClass.packageName.split("\\.")
+        val pckg = Bukkit.getServer()::class.java.packageName.split(".")
         return if (pckg.size >= 4) {
             try {
                 return Class.forName("${javaClass.packageName}.${pckg[3]}.NmsImpl").getConstructor().newInstance() as NmsImpl
