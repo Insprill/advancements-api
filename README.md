@@ -34,6 +34,7 @@
 ## Table of Contents
 
 * [About The Project](#about-the-project)
+* [Usage](#usage)
 * [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [Building](#building)
@@ -49,6 +50,39 @@
 Advancements API is a project that allows custom advancements to be created and registered in code.  
 
 While it's written in Kotlin, the API has been designed to be used in Java projects with minimal overhead.
+
+
+
+
+<!-- USAGE EXAMPLES -->
+
+## Usage
+
+### Implementing in your project
+
+[![Maven Central][maven-central-shield]][maven-central-url]
+#### Maven
+
+```xml
+<dependency>
+    <groupId>net.insprill</groupId>
+    <artifactId>advancements-api</artifactId>
+    <version>version</version>
+</dependency>
+```
+
+#### Gradle
+
+```groovy
+dependencies {
+    implementation("net.insprill:fetch4j:version")
+}
+```
+
+### Shading
+
+When shading Advancements API, if you minimize the final output, make sure to exclude advancements-api from this process.
+The NMS implementations are access via reflection at runtime, and they will get removed from the output if it's not excluded.
 
 
 
@@ -112,3 +146,5 @@ Distributed under the Apache 2.0 License. See [LICENSE][license-url] for more in
 [issues-url]: https://github.com/Insprill/advancements-api/issues
 [license-shield]: https://img.shields.io/github/license/Insprill/advancements-api.svg?style=for-the-badge
 [license-url]: https://github.com/Insprill/advancements-api/blob/master/LICENSE
+[maven-central-shield]: https://img.shields.io/maven-central/v/net.insprill/advancements-api
+[maven-central-url]: https://mvnrepository.com/artifact/net.insprill/advancements-api
