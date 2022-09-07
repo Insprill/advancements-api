@@ -17,10 +17,20 @@ class CustomAdvancement() {
     lateinit var requirements: List<List<String>>
     lateinit var reward: AdvancementReward
 
-    private constructor(key: NamespacedKey, parent: NamespacedKey?, display: AdvancementDisplay) : this() {
+    private constructor(
+        key: NamespacedKey,
+        parent: NamespacedKey?,
+        display: AdvancementDisplay?,
+        criteria: MutableList<AdvancementCriteria>,
+        requirements: List<List<String>>,
+        reward: AdvancementReward
+    ) : this() {
         this.key = key
         this.parent = parent
         this.display = display
+        this.criteria = criteria
+        this.requirements = requirements
+        this.reward = reward
     }
 
     fun display(init: AdvancementDisplay.() -> Unit) {
@@ -42,7 +52,7 @@ class CustomAdvancement() {
     fun build(): Advancement {
         return NmsHandler.nmsImpl.createCraftAdvancement(
             CustomAdvancement(
-                key, parent, display
+                key, parent, display, criteria, requirements, reward
             )
         )
     }
