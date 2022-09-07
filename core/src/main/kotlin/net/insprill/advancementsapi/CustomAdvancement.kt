@@ -7,15 +7,14 @@ import net.insprill.advancementsapi.nms.NmsHandler
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.advancement.Advancement
-import org.bukkit.advancement.AdvancementDisplay
 
 class CustomAdvancement(
     private val key: NamespacedKey,
-    private val parent: NamespacedKey?,
+    val parent: NamespacedKey?,
     private val display: CustomAdvancementDisplay,
     private val criteria: List<AdvancementCriteria>,
-    private val requirements: List<List<String>>,
-    private val reward: AdvancementReward,
+    val requirements: List<List<String>>,
+    val reward: AdvancementReward,
 ) : Advancement {
 
     private val json = toJson()
@@ -99,7 +98,7 @@ class CustomAdvancement(
         return criteria.flatMap { it.conditions.keys }.toMutableSet()
     }
 
-    override fun getDisplay(): AdvancementDisplay {
+    override fun getDisplay(): CustomAdvancementDisplay {
         return display
     }
 
