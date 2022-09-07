@@ -9,10 +9,9 @@ object NmsHandler {
 
     private fun findImpl(): NmsImpl {
         val pckg = Bukkit.getServer()::class.java.packageName.split(".")
-        @Suppress("UNREACHABLE_CODE") // False positive
         return if (pckg.size >= 4) {
             try {
-                return Class.forName("${javaClass.packageName}.${pckg[3]}.NmsImpl").getConstructor().newInstance() as NmsImpl
+                Class.forName("${javaClass.packageName}.${pckg[3]}.NmsImpl").getConstructor().newInstance() as NmsImpl
             } catch (e: ClassNotFoundException) {
                 throw UnsupportedOperationException("NMS version ${pckg[3]} is unsupported")
             }
