@@ -29,16 +29,7 @@ class NmsImpl : NmsImpl {
             net.minecraft.advancements.Advancement(
                 ResourceLocation(adv.key.namespace, adv.key.key),
                 if (adv.parent != null) (Bukkit.getAdvancement(adv.parent!!) as CraftAdvancement).handle else null,
-                DisplayInfo(
-                    CraftItemStack.asNMSCopy(adv.display.icon),
-                    MutableComponent.create(LiteralContents(adv.display.title)),
-                    MutableComponent.create(LiteralContents(adv.display.description)),
-                    ResourceLocation(adv.display.background),
-                    FrameType.byName(adv.display.displayType.name),
-                    adv.display.showToast,
-                    adv.display.announceToChat,
-                    adv.display.hidden
-                ),
+                createDisplayInfo(adv),
                 AdvancementRewards(
                     adv.reward.experience,
                     adv.reward.loot.map { ResourceLocation(it) }.toTypedArray(),
@@ -48,6 +39,20 @@ class NmsImpl : NmsImpl {
                 HashMap(), // TODO
                 adv.requirements.map { it.toTypedArray() }.toTypedArray()
             )
+        )
+    }
+
+    private fun createDisplayInfo(adv: CustomAdvancement): DisplayInfo? {
+        val display = adv.display ?: return null
+        return DisplayInfo(
+            CraftItemStack.asNMSCopy(display.icon),
+            MutableComponent.create(LiteralContents(display.title)),
+            MutableComponent.create(LiteralContents(display.description)),
+            ResourceLocation(display.background),
+            FrameType.byName(display.displayType.name),
+            display.showToast,
+            display.announceToChat,
+            display.hidden
         )
     }
 

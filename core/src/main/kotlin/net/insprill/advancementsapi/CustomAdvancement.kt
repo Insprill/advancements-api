@@ -12,7 +12,7 @@ class CustomAdvancement() {
 
     lateinit var key: NamespacedKey
     var parent: NamespacedKey? = null
-    lateinit var display: AdvancementDisplay
+    var display: AdvancementDisplay? = null
     var criteria: MutableList<AdvancementCriteria> = ArrayList()
     lateinit var requirements: List<List<String>>
     lateinit var reward: AdvancementReward
@@ -25,7 +25,7 @@ class CustomAdvancement() {
 
     fun display(init: AdvancementDisplay.() -> Unit) {
         display = AdvancementDisplay()
-        display.init()
+        display!!.init()
     }
 
     fun criteria(init: AdvancementCriteria.() -> Unit) {
@@ -73,19 +73,22 @@ class CustomAdvancement() {
             json.addProperty("parent", this.parent.toString())
         }
 
-        val display = JsonObject()
-        val icon = JsonObject()
-        icon.addProperty("item", NmsHandler.nmsImpl.getItemKey(this.display.icon))
-        icon.addProperty("nbt", NmsHandler.nmsImpl.getItemNbt(this.display.icon))
-        display.add("icon", icon)
-        display.addProperty("title", this.display.title)
-        display.addProperty("frame", this.display.displayType.name.lowercase())
-        display.addProperty("background", this.display.background)
-        display.addProperty("description", this.display.description)
-        display.addProperty("show_toast", this.display.showToast)
-        display.addProperty("announce_to_chat", this.display.announceToChat)
-        display.addProperty("hidden", this.display.hidden)
-        json.add("display", display)
+        if (this.display != null) {
+            val advDisplay = this.display!!
+            val display = JsonObject()
+            val icon = JsonObject()
+            icon.addProperty("item", NmsHandler.nmsImpl.getItemKey(advDisplay.icon))
+            icon.addProperty("nbt", NmsHandler.nmsImpl.getItemNbt(advDisplay.icon))
+            display.add("icon", icon)
+            display.addProperty("title", advDisplay.title)
+            display.addProperty("frame", advDisplay.displayType.name.lowercase())
+            display.addProperty("background", advDisplay.background)
+            display.addProperty("description", advDisplay.description)
+            display.addProperty("show_toast", advDisplay.showToast)
+            display.addProperty("announce_to_chat", advDisplay.announceToChat)
+            display.addProperty("hidden", advDisplay.hidden)
+            json.add("display", display)
+        }
 
         val criteria = JsonObject()
         this.criteria.forEach {
@@ -119,7 +122,7 @@ class CustomAdvancement() {
     }
 
     companion object {
-        fun customAdvancement(init: net.insprill.advancementsapi.CustomAdvancement.() -> Unit): Advancement {
+        fun customAdvancement(init: CustomAdvancement.() -> Unit): Advancement {
             val builder = CustomAdvancement()
             builder.init()
             return builder.build()
