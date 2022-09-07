@@ -1,17 +1,16 @@
 package net.insprill.advancementsapi.nms
 
 import org.bukkit.Bukkit
-import java.lang.UnsupportedOperationException
 
 object NmsHandler {
 
     val nmsImpl = findImpl()
 
     private fun findImpl(): NmsImpl {
-        val pckg = Bukkit.getServer()::class.java.packageName.split(".")
+        val pckg = Bukkit.getServer()::class.java.`package`.name.split(".")
         return if (pckg.size >= 4) {
             try {
-                Class.forName("${javaClass.packageName}.${pckg[3]}.NmsImpl").getConstructor().newInstance() as NmsImpl
+                Class.forName("${javaClass.`package`.name}.${pckg[3]}.NmsImpl").getConstructor().newInstance() as NmsImpl
             } catch (e: ClassNotFoundException) {
                 throw UnsupportedOperationException("NMS version ${pckg[3]} is unsupported")
             }
