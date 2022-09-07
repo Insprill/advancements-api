@@ -8,21 +8,49 @@ import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.advancement.Advancement
 
-class CustomAdvancement(
-    private val key: NamespacedKey,
-    val parent: NamespacedKey?,
-    private val display: CustomAdvancementDisplay,
-    private val criteria: List<AdvancementCriteria>,
-    val requirements: List<List<String>>,
-    val reward: AdvancementReward,
-) : Advancement {
+class CustomAdvancement() {
 
-    private val json = toJson()
+    lateinit var key: NamespacedKey
+    var parent: NamespacedKey? = null
+    lateinit var display: AdvancementDisplay
+    var criteria: MutableList<AdvancementCriteria> = ArrayList()
+    lateinit var requirements: List<List<String>>
+    lateinit var reward: AdvancementReward
+
+    private constructor(key: NamespacedKey, parent: NamespacedKey?, display: AdvancementDisplay) : this() {
+        this.key = key
+        this.parent = parent
+        this.display = display
+    }
+
+    fun display(init: AdvancementDisplay.() -> Unit) {
+        display = AdvancementDisplay()
+        display.init()
+    }
+
+    fun criteria(init: AdvancementCriteria.() -> Unit) {
+        val criteria = AdvancementCriteria()
+        criteria.init()
+        this.criteria.add(criteria)
+    }
+
+    fun reward(init: AdvancementReward.() -> Unit) {
+        reward = AdvancementReward()
+        reward.init()
+    }
+
+    fun build(): Advancement {
+        return NmsHandler.nmsImpl.createCraftAdvancement(
+            CustomAdvancement(
+                key, parent, display
+            )
+        )
+    }
 
     @Suppress("DEPRECATION") // Unsafe
     fun register() {
         Preconditions.checkArgument(Bukkit.getAdvancement(key) == null, "Advancement already registered. Check #isRegistered before calling again")
-        Bukkit.getUnsafe().loadAdvancement(key, json)
+        Bukkit.getUnsafe().loadAdvancement(key, toJson())
     }
 
     fun isRegistered(): Boolean {
@@ -38,11 +66,11 @@ class CustomAdvancement(
     /**
      * [Format](https://minecraft.fandom.com/wiki/Advancement/JSON_format#File_format)
      */
-    private fun toJson(): String {
+    fun toJson(): String {
         val json = JsonObject()
 
-        if (parent != null) {
-            json.addProperty("parent", parent.toString())
+        if (this.parent != null) {
+            json.addProperty("parent", this.parent.toString())
         }
 
         val display = JsonObject()
@@ -51,11 +79,11 @@ class CustomAdvancement(
         icon.addProperty("nbt", NmsHandler.nmsImpl.getItemNbt(this.display.icon))
         display.add("icon", icon)
         display.addProperty("title", this.display.title)
-        display.addProperty("frame", this.display.type.name.lowercase())
+        display.addProperty("frame", this.display.displayType.name.lowercase())
         display.addProperty("background", this.display.background)
         display.addProperty("description", this.display.description)
-        display.addProperty("show_toast", this.display.shouldShowToast())
-        display.addProperty("announce_to_chat", this.display.shouldAnnounceChat())
+        display.addProperty("show_toast", this.display.showToast)
+        display.addProperty("announce_to_chat", this.display.announceToChat)
         display.addProperty("hidden", this.display.hidden)
         json.add("display", display)
 
@@ -90,45 +118,12 @@ class CustomAdvancement(
         return json.toString()
     }
 
-    override fun getKey(): NamespacedKey {
-        return key
-    }
-
-    override fun getCriteria(): MutableCollection<String> {
-        return criteria.flatMap { it.conditions.keys }.toMutableSet()
-    }
-
-    override fun getDisplay(): CustomAdvancementDisplay {
-        return display
-    }
-
     companion object {
-        @JvmStatic
-        fun builder(key: NamespacedKey): Builder {
-            return Builder(key)
+        fun customAdvancement(init: net.insprill.advancementsapi.CustomAdvancement.() -> Unit): Advancement {
+            val builder = CustomAdvancement()
+            builder.init()
+            return builder.build()
         }
-    }
-
-    @Suppress("UNUSED")
-    class Builder(private val key: NamespacedKey) {
-
-        private var parent: NamespacedKey? = null
-        private var display = CustomAdvancementDisplay.builder().build()
-        private var criteria: List<AdvancementCriteria> = ArrayList()
-        private var requirements: List<List<String>> = ArrayList()
-        private var reward = AdvancementReward.builder().build()
-
-        fun parent(parent: NamespacedKey?) = apply { this.parent = parent }
-        fun display(display: CustomAdvancementDisplay) = apply { this.display = display }
-        fun criteria(criteria: List<AdvancementCriteria>) = apply { this.criteria = criteria }
-        fun requirements(requirements: List<List<String>>) = apply { this.requirements = requirements }
-        fun reward(reward: AdvancementReward) = apply { this.reward = reward }
-
-        fun build(): CustomAdvancement {
-            Preconditions.checkArgument(criteria.isNotEmpty(), "Advancement criteria cannot be empty")
-            return CustomAdvancement(key, parent, display, criteria, requirements, reward)
-        }
-
     }
 
 }

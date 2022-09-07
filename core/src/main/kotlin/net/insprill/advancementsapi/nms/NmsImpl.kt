@@ -1,7 +1,6 @@
 package net.insprill.advancementsapi.nms
 
 import net.insprill.advancementsapi.CustomAdvancement
-import org.bukkit.advancement.Advancement
 import org.bukkit.inventory.ItemStack
 
 interface NmsImpl {
@@ -10,6 +9,6 @@ interface NmsImpl {
 
     fun getItemNbt(item: ItemStack): String
 
-    fun createCraftAdvancement(adv: CustomAdvancement): Advancement
+    fun createCraftAdvancement(adv: CustomAdvancement): org.bukkit.advancement.Advancement
 
 }

@@ -10,7 +10,6 @@ import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.contents.LiteralContents
 import net.minecraft.resources.ResourceLocation
 import org.bukkit.Bukkit
-import org.bukkit.advancement.Advancement
 import org.bukkit.craftbukkit.v1_19_R1.advancement.CraftAdvancement
 import org.bukkit.craftbukkit.v1_19_R1.inventory.CraftItemStack
 import org.bukkit.inventory.ItemStack
@@ -25,7 +24,7 @@ class NmsImpl : NmsImpl {
         return CraftItemStack.asNMSCopy(item).tag.toString()
     }
 
-    override fun createCraftAdvancement(adv: CustomAdvancement): Advancement {
+    override fun createCraftAdvancement(adv: CustomAdvancement): org.bukkit.advancement.Advancement {
         return CraftAdvancement(
             net.minecraft.advancements.Advancement(
                 ResourceLocation(adv.key.namespace, adv.key.key),
@@ -35,9 +34,9 @@ class NmsImpl : NmsImpl {
                     MutableComponent.create(LiteralContents(adv.display.title)),
                     MutableComponent.create(LiteralContents(adv.display.description)),
                     ResourceLocation(adv.display.background),
-                    FrameType.byName(adv.display.type.name),
-                    adv.display.shouldShowToast(),
-                    adv.display.shouldAnnounceChat(),
+                    FrameType.byName(adv.display.displayType.name),
+                    adv.display.showToast,
+                    adv.display.announceToChat,
                     adv.display.hidden
                 ),
                 AdvancementRewards(
