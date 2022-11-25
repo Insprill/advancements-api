@@ -9,3 +9,4 @@ rootProject.name = "advancements-api"
 
 include(":core")
 include(":nms:v1_19_R1")
+include(":test-plugin")
