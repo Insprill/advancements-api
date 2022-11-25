@@ -15,7 +15,7 @@ allprojects {
 
 dependencies {
     api(project(":core"))
-    api(project(":nms:v1_19_R1", "default"))
+    api(project(":nms:v1_19_R1", "reobf"))
 }
 
 tasks {
